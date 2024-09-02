@@ -1,0 +1,3 @@
+[submodule "Client/frontend"]
+	path = Client/frontend
+	url = https://github.com/xdSushil/SoulSpace-frontend.git
