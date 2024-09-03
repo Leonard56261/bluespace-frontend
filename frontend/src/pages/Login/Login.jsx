@@ -28,7 +28,7 @@ const StyledTextField = styled(TextField)({
 export default function Login() {
   // const location = useLocation();
   // const {e} = location.state || " ";
-  const [email, setEmail] = useState(" ");
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth(); // Destructure login from useAuth
