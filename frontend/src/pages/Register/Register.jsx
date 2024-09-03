@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Box, Grid, Typography, Alert, Link } from '@mui/material';
+import { TextField, Button, Box, Grid, Typography, Alert, Link, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 
@@ -39,6 +39,7 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -57,8 +58,12 @@ export default function Register() {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setLoading(true); // Start loading
 
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      setLoading(false); // Stop loading if validation fails
+      return;
+    }
 
     try {
       const response = await axios.post(process.env.REACT_APP_REGISTER_URL, { name, email, password });
@@ -68,11 +73,13 @@ export default function Register() {
       }
     } catch (err) {
       setError('Registration failed: ' + (err.response?.data || err.message));
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   return (
-    <Box sx={{ height: '100vh', width:"100vw",display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#121212' }}>
+    <Box sx={{ height: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#121212' }}>
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12} md={6} lg={5}>
           <motion.div
@@ -104,6 +111,7 @@ export default function Register() {
             <form onSubmit={handleRegister} autoComplete="off">
               {error && <Alert severity="error" sx={{ marginBottom: 2 }}>{error}</Alert>}
               {success && <Alert severity="success" sx={{ marginBottom: 2 }}>{success}</Alert>}
+              {loading && <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 2 }}><CircularProgress color="inherit" /></Box>}
               <Box mb={3}>
                 <StyledTextField
                   label="Username"
@@ -141,8 +149,9 @@ export default function Register() {
                 color="primary"
                 fullWidth
                 size="large"
+                disabled={loading} // Disable button while loading
               >
-                Sign Up
+                {loading ? 'Signing up...' : 'Sign Up'}
               </Button>
               <Box mt={2} sx={{ textAlign: 'center' }}>
                 <Typography variant="body2" sx={{ color: '#D3D3D3' }}>

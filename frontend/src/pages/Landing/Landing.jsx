@@ -10,7 +10,7 @@ import JournalIcon from '@mui/icons-material/Book';
 import Step1Icon from '@mui/icons-material/CheckCircle';
 import Step2Icon from '@mui/icons-material/Settings';
 import Step3Icon from '@mui/icons-material/Star';
-import background from "../../components/imgs/textured-background.jpg";
+import background from "../../components/imgs/home-background.jpg";
 import ContactForm from '../../components/ContactForm/ContactForm';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';

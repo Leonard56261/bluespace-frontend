@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Button, Box, IconButton, Avatar, Menu, MenuItem, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { motion, AnimatePresence } from 'framer-motion'; // Import Framer Motion
-import { useAuth } from '../../hooks/AuthContext'; // Import useAuth hook
-import logo from '../Logo/png/logo-no-background.png'; // Import the logo image
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../hooks/AuthContext';
+import logo from '../Logo/png/logo-no-background.png';
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null); // State to control dropdown menu
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const { isLoggedIn, userName, logout } = useAuth(); // Use AuthContext
+  const { isLoggedIn, userName, logout } = useAuth();
 
   const handleScroll = () => {
     setScrolled(window.scrollY > 50);
@@ -46,7 +46,7 @@ const Navbar = () => {
   return (
     <AppBar
       position="fixed"
-      component={motion.div} // Framer Motion integration
+      component={motion.div}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 80 }}
@@ -62,19 +62,18 @@ const Navbar = () => {
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between', maxWidth: '100%', padding: '0 20px' }}>
-        {/* Logo Image */}
         <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
           <motion.img
             src={logo}
             alt="SoulSpace Logo"
-            initial={{ opacity: 0, scale: 0.8 }} // Initial state of the animation
-            animate={{ opacity: 1, scale: 1 }}  // Final state of the animation
-            transition={{ duration: 0.5, ease: 'easeOut' }} // Animation timing
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
             style={{
-              height: '50px', // Adjust height for a balanced appearance in the navbar
-              width: '80px', // Maintain aspect ratio
+              height: '50px',
+              width: '80px',
               cursor: 'pointer',
-              flexGrow: 2, // Ensures the logo aligns properly in the navbar
+              flexGrow: 2,
             }}
           />
         </Link>
@@ -136,26 +135,32 @@ const Navbar = () => {
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
-                sx={{ '& .MuiPaper-root': { backgroundColor: '#1a1a1a' } }} // Updated background color
+                sx={{ '& .MuiPaper-root': { backgroundColor: '#1a1a1a' } }}
               >
                 <MenuItem
                   component={Link}
                   to="/user/home"
+                  onClick={() => {
+                    handleMenuClose();
+                  }}
                   sx={{
                     color: "#C1C1C1",
                     '&:hover': {
-                      backgroundColor: '#333333' // Change this to your desired hover background color
+                      backgroundColor: '#333333'
                     }
                   }}
                 >
                   Home
                 </MenuItem>
                 <MenuItem
-                  onClick={handleLogout}
+                  onClick={() => {
+                    handleLogout();
+                    handleMenuClose();
+                  }}
                   sx={{
                     color: "#C1C1C1",
                     '&:hover': {
-                      backgroundColor: '#333333' // Change this to your desired hover background color
+                      backgroundColor: '#333333'
                     }
                   }}
                 >
@@ -186,7 +191,6 @@ const Navbar = () => {
         </Box>
       </Toolbar>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -213,6 +217,7 @@ const Navbar = () => {
                       color="inherit"
                       component={Link}
                       to="/demo"
+                      onClick={() => handleMobileMenuToggle()}
                       sx={{
                         marginBottom: '1rem',
                         color: location.pathname === '/demo' ? '#FFFFFF' : '#D3D3D3',
@@ -225,6 +230,7 @@ const Navbar = () => {
                       color="inherit"
                       component={Link}
                       to="/login"
+                      onClick={() => handleMobileMenuToggle()}
                       sx={{
                         marginBottom: '1rem',
                         color: location.pathname === '/login' ? '#FFFFFF' : '#D3D3D3',
@@ -237,6 +243,7 @@ const Navbar = () => {
                       color="inherit"
                       component={Link}
                       to="/register"
+                      onClick={() => handleMobileMenuToggle()}
                       sx={{
                         marginBottom: '1rem',
                         color: location.pathname === '/register' ? '#FFFFFF' : '#D3D3D3',
@@ -252,10 +259,11 @@ const Navbar = () => {
                     <MenuItem
                       component={Link}
                       to="/user/home"
+                      onClick={() => handleMobileMenuToggle()}
                       sx={{
                         color: "#C1C1C1",
                         '&:hover': {
-                          backgroundColor: '#333333' // Change this to your desired hover background color
+                          backgroundColor: '#333333'
                         }
                       }}
                     >
@@ -263,12 +271,15 @@ const Navbar = () => {
                     </MenuItem>
                     <Button
                       color="inherit"
-                      onClick={handleLogout}
+                      onClick={() => {
+                        handleLogout();
+                        handleMobileMenuToggle();
+                      }}
                       sx={{
                         marginBottom: '1rem',
                         color: '#D3D3D3',
                         '&:hover': {
-                          backgroundColor: '#333333' // Change this to your desired hover background color
+                          backgroundColor: '#333333'
                         }
                       }}
                     >

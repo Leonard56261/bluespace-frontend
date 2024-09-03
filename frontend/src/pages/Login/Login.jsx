@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Box, Grid, Typography, Alert } from '@mui/material';
+import { TextField, Button, Box, Grid, Typography, Alert, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useAuth } from '../../hooks/AuthContext'; // Import useAuth
 
@@ -26,16 +26,13 @@ const StyledTextField = styled(TextField)({
 });
 
 export default function Login() {
-  // const location = useLocation();
-  // const {e} = location.state || " ";
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth(); // Destructure login from useAuth
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
-  
-  
+  const [loading, setLoading] = useState(false); // Add loading state
   
   const validateForm = () => {
     if (!email || !password) {
@@ -53,8 +50,12 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setLoading(true); // Start loading
 
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      setLoading(false); // Stop loading if validation fails
+      return;
+    }
 
     try {
       const response = await axios.post(process.env.REACT_APP_LOGIN_URL, { email, password });
@@ -70,6 +71,8 @@ export default function Login() {
       }
     } catch (err) {
       setError('Login failed: ' + (err.response?.data || err.message));
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -104,13 +107,13 @@ export default function Login() {
           <form onSubmit={handleLogin} autoComplete="off">
             {error && <Alert severity="error" sx={{ marginBottom: 2 }}>{error}</Alert>}
             {success && <Alert severity="success" sx={{ marginBottom: 2 }}>{success}</Alert>}
+            {loading && <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 2 }}><CircularProgress color="inherit" /></Box>}
             <Box mb={3}>
               <StyledTextField
                 label="Email address"
                 variant="outlined"
                 fullWidth
                 value={email}
-                // defaultValue={email} 
                 onChange={handleEmailChange}
                 InputLabelProps={{ shrink: !!email }}
               />
@@ -139,8 +142,9 @@ export default function Login() {
               color="primary"
               fullWidth
               size="large"
+              disabled={loading} // Disable button while loading
             >
-              Sign in
+              {loading ? 'Signing in...' : 'Sign in'}
             </Button>
             <Box sx={{ mt: 2, textAlign: 'center' }}>
               <Typography variant="body2" sx={{ color: '#D3D3D3' }}>

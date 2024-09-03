@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import CanvasDraw from 'react-canvas-draw';
 import { Button, TextField, Typography, Container, Box } from '@mui/material';
 import { motion } from 'framer-motion';
 import BrushIcon from '@mui/icons-material/Brush';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UndoIcon from '@mui/icons-material/Undo';
 import DownloadIcon from '@mui/icons-material/Download';
-
+import CanvasDraw from 'react-canvas-draw';
 
 const sketchIdeas = ['Dog', 'Cat', 'Tree', 'House', 'Car', 'Flower', 'Sun', 'Star', 'Bird', 'Fish', 'Butterfly'];
 
@@ -16,7 +15,6 @@ const Canvas = () => {
   const [brushRadius, setBrushRadius] = useState(5);
   const [eraser, setEraser] = useState(false);
   const canvasRef = useRef(null);
-
 
   // Randomly select a sketch idea
   const getRandomIdea = () => {
@@ -54,8 +52,9 @@ const Canvas = () => {
     setEraser(!eraser);
   };
 
-  // Render the brush or eraser icon based on mode
-  const EraserIcon = eraser ? BrushIcon : DeleteIcon;
+  // Determine the icon based on the mode
+  const icon = eraser ? <BrushIcon /> : <DeleteIcon />;
+  const buttonText = eraser ? 'Brush' : 'Eraser';
 
   // Ensure brush size is greater than 0
   const handleBrushSizeChange = (e) => {
@@ -69,10 +68,9 @@ const Canvas = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  
   return (
-    <Container maxWidth="lg" style={{ backgroundColor: 'transparent', color: '#E0E0E0', height: '90vh', padding: '20px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', top: '45px',marginBottom:"60px" }}> {/* Adjust top position */}
-      <Box display="flex" flexDirection="column" alignItems="center" borderRadius="12px" style={{ overflow: 'hidden', width: '100%', height: '100%',padding:"10px" }}>
+    <Container maxWidth="lg" style={{ backgroundColor: 'transparent', color: 'white', height: '90vh', padding: '20px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', top: '45px', marginBottom: "60px" }}>
+      <Box display="flex" flexDirection="column" alignItems="center" borderRadius="12px" style={{ overflow: 'hidden', width: '100%', height: '100%', padding: "10px" }}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -91,8 +89,8 @@ const Canvas = () => {
               value={brushColor}
               onChange={(e) => setBrushColor(e.target.value)}
               variant="outlined"
-              InputLabelProps={{ style: { color: '#E0E0E0' } }}
-              style={{ backgroundColor: '#333', color: '#E0E0E0', width: '140px' }} // Wider color picker
+              InputLabelProps={{ style: { color: 'white' } }}
+              style={{ backgroundColor: '#333', color: 'white', width: '140px' }} // Wider color picker
             />
             <TextField
               type="number"
@@ -100,22 +98,22 @@ const Canvas = () => {
               value={brushRadius}
               onChange={handleBrushSizeChange}
               variant="outlined"
-              InputLabelProps={{ style: { color: '#E0E0E0' } }}
-              InputProps={{ style: { color: '#E0E0E0' } }} // White text color
-              style={{ backgroundColor: '#333', color: '#E0E0E0', width: '140px' }} // Wider input field
+              InputLabelProps={{ style: { color: 'white' } }}
+              InputProps={{ style: { color: 'white' } }} // White text color
+              style={{ backgroundColor: '#333', color: 'white', width: '140px' }} // Wider input field
               inputProps={{ min: 1 }} // Set minimum value to 1
             />
           </Box>
           <Typography variant="h6" style={{ margin: '20px 0' }}>
             Sketch Idea: {sketchIdea}
           </Typography>
-          <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" style={{ gap: '10px', marginBottom: '20px'}}>
+          <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" style={{ gap: '10px', marginBottom: '20px' }}>
             <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <Button variant="contained" style={{ backgroundColor: '#333', color: '#E0E0E0' }} onClick={getRandomIdea} startIcon={<BrushIcon />}>
+              <Button variant="contained" style={{ backgroundColor: '#333', color: 'white' }} onClick={getRandomIdea} startIcon={<BrushIcon />}>
                 Get Sketch Idea
               </Button>
             </motion.div>
@@ -124,7 +122,7 @@ const Canvas = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <Button variant="contained" style={{ backgroundColor: '#333', color: '#E0E0E0' }} onClick={clearCanvas} startIcon={<DeleteIcon />}>
+              <Button variant="contained" style={{ backgroundColor: '#333', color: 'white' }} onClick={clearCanvas} startIcon={<DeleteIcon />}>
                 Clear Canvas
               </Button>
             </motion.div>
@@ -133,7 +131,7 @@ const Canvas = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <Button variant="contained" style={{ backgroundColor: '#333', color: '#E0E0E0' }} onClick={undo} startIcon={<UndoIcon />}>
+              <Button variant="contained" style={{ backgroundColor: '#333', color: 'white' }} onClick={undo} startIcon={<UndoIcon />}>
                 Undo
               </Button>
             </motion.div>
@@ -142,7 +140,7 @@ const Canvas = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <Button variant="contained" style={{ backgroundColor: '#333', color: '#E0E0E0' }} onClick={downloadCanvas} startIcon={<DownloadIcon />}>
+              <Button variant="contained" style={{ backgroundColor: '#333', color: 'white' }} onClick={downloadCanvas} startIcon={<DownloadIcon />}>
                 Download
               </Button>
             </motion.div>
@@ -151,8 +149,8 @@ const Canvas = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <Button variant="contained" style={{ backgroundColor: '#333', color: '#E0E0E0' }} onClick={toggleEraser} startIcon={<EraserIcon />}>
-                {eraser ? 'Brush' : 'Eraser'}
+              <Button variant="contained" style={{ backgroundColor: '#333', color: 'white' }} onClick={toggleEraser} startIcon={icon}>
+                {buttonText}
               </Button>
             </motion.div>
           </Box>
@@ -171,7 +169,7 @@ const Canvas = () => {
               lazyRadius={0}
               canvasWidth={window.innerWidth * 0.6} // Increased canvas width
               canvasHeight={window.innerHeight * 0.48} // Increased canvas height
-              style={{ border: '2px solid #333', backgroundColor: '#1a1a1a', borderRadius: '12px', marginBottom:"120px" }} // Thicker border and darker background
+              style={{ border: '2px solid #333', backgroundColor: '#1a1a1a', borderRadius: '12px', marginBottom: "120px" }} // Thicker border and darker background
               hideGrid
               onChange={() => {}}
             />

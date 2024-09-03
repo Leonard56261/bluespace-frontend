@@ -17,7 +17,7 @@ import LandingPage from './pages/Landing/Landing';
 import Footer from './components/Footer/Footer';
 import ProtectedRoute from './components/Protected/ProtectedRoute';
 import { AuthProvider } from './hooks/AuthContext';
-import backgroundImage from './components/imgs/home-background.jpg';
+import backgroundImage from './components/imgs/textured-background.jpg';
 
 function App() {
   return (
