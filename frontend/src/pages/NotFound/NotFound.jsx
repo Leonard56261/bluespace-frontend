@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useHistory } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import cuteImageUrl from "../../components/imgs/Notfound.jpg"
 // URL of a cute image from Unsplash
-const cuteImageUrl = 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGNyYXZpbmcuY3B8ZW58MHx8fDE2Nzg0NjM2NzI&ixlib=rb-1.2.1&q=80&w=1080';
+// const cuteImageUrl = 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGNyYXZpbmcuY3B8ZW58MHx8fDE2Nzg0NjM2NzI&ixlib=rb-1.2.1&q=80&w=1080';
 
 const NotFoundPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -26,7 +26,7 @@ const NotFoundPage = () => {
       <motion.img
         src={cuteImageUrl}
         alt="Cute"
-        style={{ width: '300px', borderRadius: '15px' }}
+        style={{ width: '200px', borderRadius: '15px', marginTop: "30px" }}
         initial={{ scale: 0.8 }}
         animate={{ scale: 1 }}
         transition={{ duration: 0.5 }}
@@ -40,7 +40,7 @@ const NotFoundPage = () => {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => history.push('/')}
+        onClick={() => navigate('/')}
         sx={{ backgroundColor: '#333', '&:hover': { backgroundColor: '#555' } }}
       >
         Go to Home

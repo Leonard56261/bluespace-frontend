@@ -63,7 +63,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-               <Route component={NotFound} />
+              <Route path="*" element={<NotFound />} />
               <Route path="/canvas" element={<Canvas />} />
               <Route path="/movies" element={<Movies />} />
               <Route path="/chat" element={
