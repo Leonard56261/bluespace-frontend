@@ -280,7 +280,7 @@ const NewEntryForm = ({ addEntry }) => {
           alignSelf: 'center',
         }}
       >
-        Add Entry
+        Add Journal
       </Button>
     </form>
   );
