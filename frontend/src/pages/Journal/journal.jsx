@@ -170,13 +170,17 @@ const Diary = () => {
             </Box>
           )}
           {emojiPickerOpen && (
-            <Box sx={{ position: 'absolute', bottom: '50px', right: '10px' }}>
+            <Box sx={{ position: 'flex', bottom: '50px', right: '10px' }}>
               <EmojiPicker onEmojiClick={handleEmojiSelect} />
               {selectedEmoji && (
                 <IconButton
                   onClick={saveEmoji}
                   sx={{ color: '#ffffff', marginTop: '10px' }}
-                > 
+                >
+                  <Typography varient = "body3">
+                    Flip the page once before editing the entry.
+
+                  </Typography>
                   <Check />
                 </IconButton>
               )}
