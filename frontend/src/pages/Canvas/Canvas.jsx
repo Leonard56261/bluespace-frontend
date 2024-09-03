@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button, TextField, Typography, Container, Box } from '@mui/material';
 import { motion } from 'framer-motion';
 import BrushIcon from '@mui/icons-material/Brush';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UndoIcon from '@mui/icons-material/Undo';
 import DownloadIcon from '@mui/icons-material/Download';
-import CanvasDraw from 'react-canvas-draw';
+import { Stage, Layer, Line } from 'react-konva';
 
 const sketchIdeas = ['Dog', 'Cat', 'Tree', 'House', 'Car', 'Flower', 'Sun', 'Star', 'Bird', 'Fish', 'Butterfly'];
 
@@ -14,7 +14,9 @@ const Canvas = () => {
   const [brushColor, setBrushColor] = useState('#FFFFFF'); // Default to white
   const [brushRadius, setBrushRadius] = useState(5);
   const [eraser, setEraser] = useState(false);
-  const canvasRef = useRef(null);
+  const [lines, setLines] = useState([]);
+  const [currentLine, setCurrentLine] = useState([]);
+  const stageRef = useRef(null);
 
   // Randomly select a sketch idea
   const getRandomIdea = () => {
@@ -24,27 +26,21 @@ const Canvas = () => {
 
   // Clear the canvas
   const clearCanvas = () => {
-    if (canvasRef.current) {
-      canvasRef.current.clear();
-    }
+    setLines([]);
   };
 
   // Undo the last drawn line
   const undo = () => {
-    if (canvasRef.current) {
-      canvasRef.current.undo();
-    }
+    setLines((prevLines) => prevLines.slice(0, -1));
   };
 
   // Download the drawing as an image
   const downloadCanvas = () => {
-    if (canvasRef.current) {
-      const dataURL = canvasRef.current.getDataURL();
-      const link = document.createElement('a');
-      link.href = dataURL;
-      link.download = 'drawing.png';
-      link.click();
-    }
+    const uri = stageRef.current.toDataURL();
+    const link = document.createElement('a');
+    link.href = uri;
+    link.download = 'drawing.png';
+    link.click();
   };
 
   // Toggle eraser mode
@@ -52,21 +48,25 @@ const Canvas = () => {
     setEraser(!eraser);
   };
 
-  // Determine the icon based on the mode
-  const icon = eraser ? <BrushIcon /> : <DeleteIcon />;
-  const buttonText = eraser ? 'Brush' : 'Eraser';
+  // Handle drawing on canvas
+  const handleMouseDown = (e) => {
+    const pos = e.target.getStage().getPointerPosition();
+    setCurrentLine([...currentLine, pos]);
+  };
 
-  // Ensure brush size is greater than 0
-  const handleBrushSizeChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    if (value > 0) {
-      setBrushRadius(value);
+  const handleMouseMove = (e) => {
+    if (currentLine.length > 0) {
+      const pos = e.target.getStage().getPointerPosition();
+      setCurrentLine([...currentLine, pos]);
     }
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const handleMouseUp = () => {
+    if (currentLine.length > 0) {
+      setLines([...lines, { color: brushColor, radius: brushRadius, points: currentLine }]);
+      setCurrentLine([]);
+    }
+  };
 
   return (
     <Container maxWidth="lg" style={{ backgroundColor: 'transparent', color: 'white', height: '90vh', padding: '20px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', top: '45px', marginBottom: "60px" }}>
@@ -96,7 +96,7 @@ const Canvas = () => {
               type="number"
               label="Brush Size"
               value={brushRadius}
-              onChange={handleBrushSizeChange}
+              onChange={(e) => setBrushRadius(parseInt(e.target.value, 10))}
               variant="outlined"
               InputLabelProps={{ style: { color: 'white' } }}
               InputProps={{ style: { color: 'white' } }} // White text color
@@ -149,8 +149,8 @@ const Canvas = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <Button variant="contained" style={{ backgroundColor: '#333', color: 'white' }} onClick={toggleEraser} startIcon={icon}>
-                {buttonText}
+              <Button variant="contained" style={{ backgroundColor: '#333', color: 'white' }} onClick={toggleEraser} startIcon={<BrushIcon />}>
+                {eraser ? 'Brush' : 'Eraser'}
               </Button>
             </motion.div>
           </Box>
@@ -162,17 +162,38 @@ const Canvas = () => {
             transition={{ duration: 0.5 }}
             style={{ backgroundColor: 'transparent', padding: '20px', borderRadius: '12px', width: '100%', height: '80%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }} // Darker black background with padding
           >
-            <CanvasDraw
-              ref={canvasRef}
-              brushColor={eraser ? '#1a1a1a' : brushColor} // Eraser color
-              brushRadius={brushRadius}
-              lazyRadius={0}
-              canvasWidth={window.innerWidth * 0.6} // Increased canvas width
-              canvasHeight={window.innerHeight * 0.48} // Increased canvas height
-              style={{ border: '2px solid #333', backgroundColor: '#1a1a1a', borderRadius: '12px', marginBottom: "120px" }} // Thicker border and darker background
-              hideGrid
-              onChange={() => {}}
-            />
+            <Stage
+              width={window.innerWidth * 0.6}
+              height={window.innerHeight * 0.48}
+              ref={stageRef}
+              style={{ border: '2px solid #333', backgroundColor: '#1a1a1a', borderRadius: '12px', marginBottom: '120px' }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+            >
+              <Layer>
+                {lines.map((line, index) => (
+                  <Line
+                    key={index}
+                    points={line.points.flatMap(point => [point.x, point.y])}
+                    stroke={line.color}
+                    strokeWidth={line.radius}
+                    lineCap="round"
+                    lineJoin="round"
+                    shadowBlur={10}
+                  />
+                ))}
+                {currentLine.length > 0 && (
+                  <Line
+                    points={currentLine.flatMap(point => [point.x, point.y])}
+                    stroke={brushColor}
+                    strokeWidth={brushRadius}
+                    lineCap="round"
+                    lineJoin="round"
+                  />
+                )}
+              </Layer>
+            </Stage>
           </motion.div>
         </Box>
       </Box>
