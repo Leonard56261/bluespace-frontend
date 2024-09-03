@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: SoulSpace
+    name: soulspace-frontend
     env: static
-    staticPublishPath: build
-    buildCommand: npm install && npm run build
-    routes:
-      - type: rewrite
-        source: /.*
-        destination: /index.html
+    staticSite:
+      buildCommand: "cd frontend && npm install && npm run build"
+      publishDir: "frontend/build"
+      routes:
+        - src: "/**"
+          dest: "/index.html"

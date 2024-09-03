@@ -18,6 +18,7 @@ import Footer from './components/Footer/Footer';
 import ProtectedRoute from './components/Protected/ProtectedRoute';
 import { AuthProvider } from './hooks/AuthContext';
 import backgroundImage from './components/imgs/textured-background.jpg';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+               <Route component={NotFound} />
               <Route path="/canvas" element={<Canvas />} />
               <Route path="/movies" element={<Movies />} />
               <Route path="/chat" element={
