@@ -7,6 +7,8 @@ import EmojiPicker from 'emoji-picker-react';
 import { useAuth } from "../../hooks/AuthContext";
 
 const Diary = () => {
+  const { userName } = useAuth();
+
   const [entries, setEntries] = useState(() => {
     const savedEntries = localStorage.getItem('diaryEntries');
     if (savedEntries) {
@@ -15,18 +17,17 @@ const Diary = () => {
         date: new Date(entry.date),
       }));
     }
-    return [];
+    // Initialize with a default entry if no entries are found
+    return [{ text: `${userName}'s Journal`, date: new Date(), backgroundColor: '#1e1e1e' }];
   });
 
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(entries.length > 0 ? 0 : entries.length); // Set initial page based on entries
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState('#1e1e1e');
   const [editingIndex, setEditingIndex] = useState(-1);
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState(''); // New state for selected emoji
-  
-  const { userName } = useAuth();
-  
+  const [selectedEmoji, setSelectedEmoji] = useState('');
+
   useEffect(() => {
     localStorage.setItem('diaryEntries', JSON.stringify(entries));
   }, [entries]);
@@ -34,7 +35,7 @@ const Diary = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   const addEntry = (newEntry) => {
     setEntries([...entries, newEntry]);
     setCurrentPage(entries.length); // Go to the new page
@@ -133,9 +134,7 @@ const Diary = () => {
           top: "35px"
         }}
       >
-        {currentPage === 0 ? (
-          <Typography variant="h4" sx={{ textAlign: 'center' }}>{userName}'s Journal</Typography>
-        ) : currentPage === entries.length ? (
+        {currentPage === entries.length ? (
           <NewEntryForm addEntry={addEntry} />
         ) : (
           <DiaryEntry
@@ -171,15 +170,13 @@ const Diary = () => {
             </Box>
           )}
           {emojiPickerOpen && (
-            <Box sx={{ position: 'flex', bottom: '50px', right: '10px' }}>
+            <Box sx={{ position: 'absolute', bottom: '50px', right: '10px' }}>
               <EmojiPicker onEmojiClick={handleEmojiSelect} />
               {selectedEmoji && (
                 <IconButton
                   onClick={saveEmoji}
                   sx={{ color: '#ffffff', marginTop: '10px' }}
                 > 
-                  <Typography varient="body2"> flip the page before editing again.</Typography>
-                 
                   <Check />
                 </IconButton>
               )}
@@ -187,33 +184,38 @@ const Diary = () => {
           )}
         </Box>
       </motion.div>
-      {currentPage > 0 && (
-        <IconButton
-          onClick={prevPage}
-          sx={{
-            position: 'absolute',
-            left: '5%',
-            color: '#ffffff',
-            '&:hover': { color: '#90caf9' }
-          }}
-        >
-          <ArrowBackIos fontSize="large" />
-        </IconButton>
+
+      {entries.length > 0 && (
+        <>
+          {currentPage > 0 && (
+            <IconButton
+              onClick={prevPage}
+              sx={{
+                position: 'absolute',
+                left: '5%',
+                color: '#ffffff',
+                '&:hover': { color: '#90caf9' }
+              }}
+            >
+              <ArrowBackIos fontSize="large" />
+            </IconButton>
+          )}
+          {currentPage < entries.length && (
+            <IconButton
+              onClick={nextPage}
+              sx={{
+                position: 'absolute',
+                right: '5%',
+                color: '#ffffff',
+                '&:hover': { color: '#90caf9' }
+              }}
+            >
+              <ArrowForwardIos fontSize="large" />
+            </IconButton>
+          )}
+        </>
       )}
-      {currentPage < entries.length && (
-        <IconButton
-          onClick={nextPage}
-          sx={{
-            position: 'absolute',
-            right: '5%',
-            color: '#ffffff',
-            '&:hover': { color: '#90caf9' }
-          }}
-        >
-          <ArrowForwardIos fontSize="large" />
-        </IconButton>
-      )}
-      {/* Note at the bottom of the page */}
+
       <Box
         sx={{
           position: 'absolute',
