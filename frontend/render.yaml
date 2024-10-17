@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: SoulSpace
+    name: BlueSpace
     env: static
     staticPublishPath: build
     buildCommand: npm install && npm run build
