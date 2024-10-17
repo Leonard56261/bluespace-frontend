@@ -1,0 +1,82 @@
+/* Ensure consistent card dimensions and styles */
+.modern-card {
+  max-width: 345px; /* Maximum width for consistency */
+  margin: 20px; /* Spacing around the card */
+  border: 1px solid #333; /* Darker border for card */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Darker shadow */
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transform and shadow changes */
+  background-color: #2b282f; /* Dark background */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Hover effects to lift the card and enhance shadow */
+.modern-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8); /* Enhanced shadow on hover */
+}
+
+/* Media section with fixed height and rounded top corners */
+.card-media {
+  height: 140px; /* Fixed height for the image */
+  border-bottom: 1px solid #333; /* Border below the image */
+  border-radius: 12px 12px 0 0; /* Rounded top corners */
+  object-fit: cover; /* Ensure the image covers the space */
+}
+
+/* Padding for the content section */
+.card-content {
+  padding: 16px; /* Padding inside the card */
+  color: #e0e0e0; /* Light text color */
+}
+
+/* Button container centered at the bottom of the card */
+.card-actions {
+  padding: 16px; /* Padding around the button */
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+}
+
+/* Button styles */
+.card-button {
+  background-color: #d2c7e0; /* Light purple background color */
+  color: #121212; /* Dark text color */
+  border: none; /* Remove default border */
+  padding: 12px 24px; /* Padding inside the button */
+  border-radius: 50px; /* Pill-shaped button */
+  font-size: 14px; /* Font size for the button text */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions for background color and transform */
+}
+
+/* Hover effect for the button */
+.card-button:hover {
+  background-color: #a098ad; /* Slightly darker background color on hover */
+  box-shadow: 0px 2px 4px rgba(73, 67, 67, 0.5); /* Subtle shadow on hover */
+  color: #110e0e; /* Light color for the text */
+}
+
+/* Remove outline on focus */
+.card-button:focus {
+  outline: none;
+}
+
+/* Darker background and scale down on click */
+.card-button:active {
+  background-color: #46424c; /* Darker background color on click */
+  transform: scale(0.95); /* Slightly scale down the button */
+}
+
+.disabled-card {
+  filter: grayscale(100%);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.disabled-card .card-button {
+  background-color: #888; /* Greyed-out button */
+  cursor: not-allowed;
+}
