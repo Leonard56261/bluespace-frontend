@@ -1,8 +1,12 @@
 {
+  "name": "soulspace",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run start-api\" \"npm run start-frontend\"",
+    "start-api": "npm start --prefix api",
+    "start-frontend": "npm start --prefix frontend"
+  },
   "dependencies": {
-    "cors": "^2.8.5",
-    "jwt-decode": "^4.0.0",
-    "mongoose": "^8.5.3",
-    "react-canvas-draw": "^1.2.1"
+    "concurrently": "^7.2.1"
   }
 }
