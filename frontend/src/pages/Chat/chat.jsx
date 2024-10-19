@@ -15,25 +15,31 @@ const AboutPage = () => {
   const location = useLocation(); // Use the location hook to get current path
   useEffect(() => {
     if (location.pathname === '/chat') {
-      // Add script tags dynamically
       const botpressScript = document.createElement('script');
       botpressScript.src = process.env.REACT_APP_BOTPRESS_SCRIPT_SRC;
       botpressScript.async = true;
-
-      const configScript = document.createElement('script');
-      configScript.src = process.env.REACT_APP_CONFIG_SCRIPT_SRC;
-      configScript.async = true;
-
+  
+      botpressScript.onload = () => {
+        console.log('Botpress script loaded successfully.');
+        window.botpressWebChat.init({
+          botId: '04f745d6-7d79-4904-9b73-f48d1b0d3f85',
+          userId: 'user123',  // Ensure userId is set
+          email: '123@gmail.com',
+          botAvatar: 'https://files.bpcontent.cloud/2024/10/19/03/20241019030720-HHSKP3FS.jpeg'  // Ensure botAvatar is set
+        });
+      };
+  
+      botpressScript.onerror = () => {
+        console.error('Error loading Botpress script.');
+      };
+  
       document.body.appendChild(botpressScript);
-      document.body.appendChild(configScript);
-
-      // Cleanup function to remove scripts when component is unmounted or path changes
       return () => {
         document.body.removeChild(botpressScript);
-        document.body.removeChild(configScript);
       };
     }
-  }, [location.pathname]); // Dependency array with location.pathname to run effect on path change
+  }, [location.pathname]);
+  
 
   // Scroll to top when the component is mounted
   useEffect(() => {
