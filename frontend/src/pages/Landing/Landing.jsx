@@ -92,7 +92,7 @@ function LandingPage() {
                 sx={{
                   fontSize: '1.2rem',
                   padding: '10px 20px',
-                  backgroundColor: '#3f51b5',
+                  backgroundColor: '#001f3f',
                   color: '#fff',
                   '&:hover': { backgroundColor: '#003366' },
                   transition: 'background-color 0.3s ease',
