@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Button, Box, IconButton, Avatar, Menu, MenuItem, Typog
 import MenuIcon from '@mui/icons-material/Menu';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../hooks/AuthContext';
-import logo from '../Logo/png/logo-no-background.png';
+import logo from '../Logo/png/umich.png';
 
 const Navbar = () => {
   const location = useLocation();
@@ -51,21 +51,21 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 80 }}
       sx={{
-        backgroundColor: scrolled ? 'rgba(26, 26, 26, 0.8)' : 'transparent',
+        backgroundColor: scrolled ? 'rgba(0, 31, 63, 0.9)' : '#001f3f',
         width: '100%',
         top: 0,
         left: 0,
         zIndex: 1300,
         transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
         boxShadow: scrolled ? '0 4px 8px rgba(0, 0, 0, 0.3)' : 'none',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+        borderBottom: '1px solid rgba(255, 223, 87, 0.3)', // Yellow border
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between', maxWidth: '100%', padding: '0 20px' }}>
         <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
           <motion.img
             src={logo}
-            alt="SoulSpace Logo"
+            alt="Logo"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -73,7 +73,6 @@ const Navbar = () => {
               height: '50px',
               width: '80px',
               cursor: 'pointer',
-              flexGrow: 2,
             }}
           />
         </Link>
@@ -87,11 +86,11 @@ const Navbar = () => {
                 to="/demo"
                 sx={{
                   marginRight: '1rem',
-                  color: location.pathname === '/demo' ? '#FFFFFF' : '#C1C1C1',
+                  color: location.pathname === '/demo' ? '#FFD700' : '#C1C1C1', // Yellow or gray text
                   fontWeight: location.pathname === '/demo' ? 'bold' : 'normal',
                 }}
               >
-                Try Demo
+                Try Us
               </Button>
               <Button
                 color="inherit"
@@ -99,7 +98,7 @@ const Navbar = () => {
                 to="/login"
                 sx={{
                   marginRight: '1rem',
-                  color: location.pathname === '/login' ? '#FFFFFF' : '#C1C1C1',
+                  color: location.pathname === '/login' ? '#FFD700' : '#C1C1C1', // Yellow or gray text
                   fontWeight: location.pathname === '/login' ? 'bold' : 'normal',
                 }}
               >
@@ -110,7 +109,7 @@ const Navbar = () => {
                 component={Link}
                 to="/register"
                 sx={{
-                  color: location.pathname === '/register' ? '#FFFFFF' : '#C1C1C1',
+                  color: location.pathname === '/register' ? '#FFD700' : '#C1C1C1', // Yellow or gray text
                   fontWeight: location.pathname === '/register' ? 'bold' : 'normal',
                 }}
               >
@@ -122,12 +121,12 @@ const Navbar = () => {
             <>
               <Typography
                 variant="body1"
-                sx={{ color: '#C1C1C1', marginRight: '10px' }}
+                sx={{ color: '#FFD700', marginRight: '10px' }} // Yellow text
               >
                 Welcome, {userName}!
               </Typography>
               <IconButton onClick={handleMenuOpen}>
-                <Avatar sx={{ bgcolor: '#2a2a2a' }}>
+                <Avatar sx={{ bgcolor: '#FFD700' }}> {/* Yellow Avatar */}
                   {userName.charAt(0).toUpperCase()}
                 </Avatar>
               </IconButton>
@@ -135,19 +134,17 @@ const Navbar = () => {
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
-                sx={{ '& .MuiPaper-root': { backgroundColor: '#1a1a1a' } }}
+                sx={{ '& .MuiPaper-root': { backgroundColor: '#001f3f' } }} // Dark blue menu
               >
                 <MenuItem
                   component={Link}
                   to="/user/home"
-                  onClick={() => {
-                    handleMenuClose();
-                  }}
+                  onClick={handleMenuClose}
                   sx={{
-                    color: "#C1C1C1",
+                    color: "#FFD700", // Yellow text
                     '&:hover': {
-                      backgroundColor: '#333333'
-                    }
+                      backgroundColor: '#333333',
+                    },
                   }}
                 >
                   Home
@@ -158,10 +155,10 @@ const Navbar = () => {
                     handleMenuClose();
                   }}
                   sx={{
-                    color: "#C1C1C1",
+                    color: "#FFD700", // Yellow text
                     '&:hover': {
-                      backgroundColor: '#333333'
-                    }
+                      backgroundColor: '#333333',
+                    },
                   }}
                 >
                   Logout
@@ -175,7 +172,7 @@ const Navbar = () => {
           {isLoggedIn && (
             <Typography
               variant="body1"
-              sx={{ color: '#C1C1C1', marginRight: '10px' }}
+              sx={{ color: '#FFD700', marginRight: '10px' }} // Yellow text
             >
               Hey, {userName}!
             </Typography>
@@ -186,7 +183,7 @@ const Navbar = () => {
             aria-label="menu"
             onClick={handleMobileMenuToggle}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ color: '#FFD700' }} /> {/* Yellow menu icon */}
           </IconButton>
         </Box>
       </Toolbar>
@@ -205,7 +202,7 @@ const Navbar = () => {
                 position: 'absolute',
                 top: '64px',
                 right: 0,
-                backgroundColor: '#1a1a1a',
+                backgroundColor: '#001f3f', // Dark blue background
                 width: '100%',
                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
               }}
@@ -220,7 +217,7 @@ const Navbar = () => {
                       onClick={() => handleMobileMenuToggle()}
                       sx={{
                         marginBottom: '1rem',
-                        color: location.pathname === '/demo' ? '#FFFFFF' : '#D3D3D3',
+                        color: location.pathname === '/demo' ? '#FFD700' : '#D3D3D3', // Yellow or gray text
                         fontWeight: location.pathname === '/demo' ? 'bold' : 'normal',
                       }}
                     >
@@ -233,7 +230,7 @@ const Navbar = () => {
                       onClick={() => handleMobileMenuToggle()}
                       sx={{
                         marginBottom: '1rem',
-                        color: location.pathname === '/login' ? '#FFFFFF' : '#D3D3D3',
+                        color: location.pathname === '/login' ? '#FFD700' : '#D3D3D3', // Yellow or gray text
                         fontWeight: location.pathname === '/login' ? 'bold' : 'normal',
                       }}
                     >
@@ -246,7 +243,7 @@ const Navbar = () => {
                       onClick={() => handleMobileMenuToggle()}
                       sx={{
                         marginBottom: '1rem',
-                        color: location.pathname === '/register' ? '#FFFFFF' : '#D3D3D3',
+                        color: location.pathname === '/register' ? '#FFD700' : '#D3D3D3', // Yellow or gray text
                         fontWeight: location.pathname === '/register' ? 'bold' : 'normal',
                       }}
                     >
@@ -261,10 +258,10 @@ const Navbar = () => {
                       to="/user/home"
                       onClick={() => handleMobileMenuToggle()}
                       sx={{
-                        color: "#C1C1C1",
+                        color: "#FFD700", // Yellow text
                         '&:hover': {
-                          backgroundColor: '#333333'
-                        }
+                          backgroundColor: '#333333',
+                        },
                       }}
                     >
                       Home
@@ -279,8 +276,8 @@ const Navbar = () => {
                         marginBottom: '1rem',
                         color: '#D3D3D3',
                         '&:hover': {
-                          backgroundColor: '#333333'
-                        }
+                          backgroundColor: '#333333',
+                        },
                       }}
                     >
                       Logout

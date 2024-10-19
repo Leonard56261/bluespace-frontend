@@ -5,13 +5,13 @@ const Footer = ()=> {
     <Box sx={{ py: 7, backgroundColor: '#1a1a1a', color: '#D3D3D3', textAlign: 'center', width: '100vw' }}>
         <Container maxWidth="lg">
           <Typography variant="body2" sx={{ marginBottom: 2 }}>
-            © 2024 Umich Mental Support Platform. This is a team project for EECS 497. 
+            © 2024 Bluespace - A Umich Mental Support Platform. This is a team project for FA24 EECS 497. 
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-            {/* Add icons for social media here
+          {/* <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+            Add icons for social media here
             <Typography variant="body2">Privacy Policy</Typography>
-            <Typography variant="body2">Terms of Service</Typography> */}
-          </Box>
+            <Typography variant="body2">Terms of Service</Typography>
+          </Box> */}
         </Container>
       </Box>
   )

@@ -94,7 +94,7 @@ function LandingPage() {
                   padding: '10px 20px',
                   backgroundColor: '#3f51b5',
                   color: '#fff',
-                  '&:hover': { backgroundColor: '#5c6bc0' },
+                  '&:hover': { backgroundColor: '#003366' },
                   transition: 'background-color 0.3s ease',
                 }}
                 onClick={() => navigate("/login")}
@@ -186,7 +186,7 @@ function LandingPage() {
             </Typography>
             <Grid container spacing={4}>
               {[
-                { title: 'Step 1', description: 'Sign up to create your SoulSpace account.', icon: <Step1Icon fontSize="large" /> },
+                { title: 'Step 1', description: 'Sign up to create your BlueSpace account.', icon: <Step1Icon fontSize="large" /> },
                 { title: 'Step 2', description: 'Explore multiple features.', icon: <Step2Icon fontSize="large" /> },
                 { title: 'Step 3', description: 'Enjoy personalized recommendations and tools.', icon: <Step3Icon fontSize="large" /> },
               ].map((step, index) => (
@@ -220,8 +220,8 @@ function LandingPage() {
         </Container>
       </Box>
 
-      {/* Contact Form */}
-      <ContactForm />
+      {/* Contact Form
+      <ContactForm /> */}
 
       {/* Scroll Down Indicator */}
       <Box

@@ -12,10 +12,9 @@ const AboutPage = () => {
   const helpfulRef = useRef(null);
   const securityRef = useRef(null);
   
-  const location = useLocation(); // Use the location hook to get current path
+  const location = useLocation();
   useEffect(() => {
     if (location.pathname === '/chat') {
-      // Add script tags dynamically
       const botpressScript = document.createElement('script');
       botpressScript.src = process.env.REACT_APP_BOTPRESS_SCRIPT_SRC;
       botpressScript.async = true;
@@ -27,30 +26,28 @@ const AboutPage = () => {
       document.body.appendChild(botpressScript);
       document.body.appendChild(configScript);
 
-      // Cleanup function to remove scripts when component is unmounted or path changes
       return () => {
         document.body.removeChild(botpressScript);
         document.body.removeChild(configScript);
       };
     }
-  }, [location.pathname]); // Dependency array with location.pathname to run effect on path change
+  }, [location.pathname]);
 
-  // Scroll to top when the component is mounted
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const sectionRefs = [
-    { ref: aboutRef, id: "about", title: "About the Virtual Therapist" },
-    { ref: trainingRef, id: "training", title: "Training Data" },
-    { ref: usageRef, id: "usage", title: "How to Use the Bot" },
-    { ref: questionsRef, id: "questions", title: "What You Can Ask" },
-    { ref: helpfulRef, id: "helpful", title: "Why It’s Helpful" },
-    { ref: securityRef, id: "security", title: "Security Concerns" },
+    { ref: aboutRef, id: "about", title: "About the Virtual Support Assistant" },
+    { ref: trainingRef, id: "training", title: "Training and Data Sources" },
+    { ref: usageRef, id: "usage", title: "How to Engage with the Assistant" },
+    { ref: questionsRef, id: "questions", title: "What You Can Ask the Assistant" },
+    { ref: helpfulRef, id: "helpful", title: "Why It’s Beneficial for You" },
+    { ref: securityRef, id: "security", title: "Security and Privacy" },
   ];
 
   const scrollToSection = (ref) => {
-    const navbarHeight = 69; // Adjust this value based on the actual height of your navbar
+    const navbarHeight = 69;
     const topOffset = ref.current.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
 
     window.scrollTo({
@@ -60,9 +57,9 @@ const AboutPage = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#1a1a1a' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#001f3f' }}>
       {/* Sidebar */}
-      <Box sx={{ width: '178px', backgroundColor: '#1a1a1a', padding: '1.5rem', position: 'fixed', height: '100vh', borderRight: '2px solid #ff4081', marginTop: "55px" }}>
+      <Box sx={{ width: '178px', backgroundColor: '#001f3f', padding: '1.5rem', position: 'fixed', height: '100vh', borderRight: '2px solid #ffdd57', marginTop: "55px" }}>
         <Typography
           variant="h6"
           sx={{ color: '#ffffff', marginBottom: '1rem' }}
@@ -80,8 +77,8 @@ const AboutPage = () => {
               onClick={() => scrollToSection(section.ref)}
               sx={{
                 color: '#ffffff',
-                backgroundColor: window.location.hash === `#${section.id}` ? '#ff4081' : 'transparent',
-                '&:hover': { backgroundColor: '#ff4081' },
+                backgroundColor: window.location.hash === `#${section.id}` ? '#ffdd57' : 'transparent',
+                '&:hover': { backgroundColor: '#ffdd57' },
               }}
             >
               <ListItemText primary={section.title} />
@@ -91,7 +88,7 @@ const AboutPage = () => {
       </Box>
 
       {/* Content */}
-      <Box sx={{ marginLeft: '220px', width: 'calc(100% - 220px)', padding: '1.5rem', backgroundColor: '#1a1a1a', marginTop: "55px"}}>
+      <Box sx={{ marginLeft: '220px', width: 'calc(100% - 220px)', padding: '1.5rem', backgroundColor: '#001f3f', marginTop: "55px" }}>
         <Typography
           variant="h3"
           align="center"
@@ -102,7 +99,7 @@ const AboutPage = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2 }}
         >
-          Know About Your Virtual Therapist
+          Welcome to Your Virtual Support Assistant
         </Typography>
 
         <Container maxWidth="lg">
@@ -113,13 +110,13 @@ const AboutPage = () => {
             style={{ marginBottom: '2rem', textAlign: 'left' }}
             ref={aboutRef}
           >
-            <Typography variant="h5" gutterBottom style={{ color: '#ff4081', marginTop: '1rem' }}>
-              About the Virtual Therapist
+            <Typography variant="h5" gutterBottom style={{ color: '#ffdd57', marginTop: '1rem' }}>
+              About the Virtual Support Assistant
             </Typography>
             <Typography variant="body1" style={{ color: '#ffffffcc' }}>
-              Our virtual therapist is here to support you through various challenges, including stress, anxiety, and relationship issues. Equipped with advanced training and empathetic responses, it aims to offer personalized support to help you navigate through tough times.
+              Our assistant is designed to support international and first-year students at college who face challenges like isolation, academic stress, and cultural adjustment. It offers personalized, empathetic guidance to help you manage these issues effectively.
             </Typography>
-            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ff4081' }} />
+            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ffdd57' }} />
           </motion.div>
 
           <motion.div
@@ -129,13 +126,13 @@ const AboutPage = () => {
             style={{ marginBottom: '2rem', textAlign: 'left' }}
             ref={trainingRef}
           >
-            <Typography variant="h5" gutterBottom style={{ color: '#ff4081', marginTop: '1rem' }}>
-              Training Data
+            <Typography variant="h5" gutterBottom style={{ color: '#ffdd57', marginTop: '1rem' }}>
+              Training and Data Sources
             </Typography>
             <Typography variant="body1" style={{ color: '#ffffffcc' }}>
-              The virtual therapist has been meticulously trained on a broad range of data from various articles related to these topics, This diverse training ensures that the responses are both scientifically grounded and highly relevant.
+              The assistant has been trained using data on student mental health and well-being, specifically focusing on issues like stress management, cultural adaptation, and social isolation. It draws from credible sources to offer the best possible advice.
             </Typography>
-            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ff4081' }} />
+            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ffdd57' }} />
           </motion.div>
 
           <motion.div
@@ -145,20 +142,13 @@ const AboutPage = () => {
             style={{ marginBottom: '2rem', textAlign: 'left' }}
             ref={usageRef}
           >
-            <Typography variant="h5" gutterBottom style={{ color: '#ff4081', marginTop: '1rem' }}>
-              How to Use the Bot
+            <Typography variant="h5" gutterBottom style={{ color: '#ffdd57', marginTop: '1rem' }}>
+              How to Engage with the Assistant
             </Typography>
             <Typography variant="body1" style={{ color: '#ffffffcc' }}>
-              To get started with the bot, follow these simple steps:
-              <ul>
-                
-                <li>Click on the chat widget located in the bottom-right corner of the screen.</li>
-                <li>Engage in a conversation by typing your questions or sharing your thoughts.</li>
-                <li>The bot will provide tailored guidance and support based on your inputs.</li>
-              
-              </ul>
+              Get started by opening the chat widget at the bottom-right of your screen. Share your concerns or ask questions, and the assistant will provide personalized support based on your needs.
             </Typography>
-            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ff4081' }} />
+            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ffdd57' }} />
           </motion.div>
 
           <motion.div
@@ -168,20 +158,13 @@ const AboutPage = () => {
             style={{ marginBottom: '2rem', textAlign: 'left' }}
             ref={questionsRef}
           >
-            <Typography variant="h5" gutterBottom style={{ color: '#ff4081', marginTop: '1rem' }}>
-              What You Can Ask
+            <Typography variant="h5" gutterBottom style={{ color: '#ffdd57', marginTop: '1rem' }}>
+              What You Can Ask the Assistant
             </Typography>
             <Typography variant="body1" style={{ color: '#ffffffcc' }}>
-              The bot can assist you with a wide range of queries, including:
-              <ul>
-                <li>How to manage feelings of overwhelm.</li>
-                <li>Strategies to stay motivated towards your goals.</li>
-                <li>Support for any ongoing issues or challenges you are facing.</li>
-                <li>Ways to improve your mental well-being and handle stress.</li>
-                <li>Advice on building and maintaining healthy relationships.</li>
-              </ul>
+              You can ask about managing stress, making new friends, adapting to college life, or how to handle homesickness. The assistant is equipped to provide advice that helps ease your transition into university life.
             </Typography>
-            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ff4081' }} />
+            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ffdd57' }} />
           </motion.div>
 
           <motion.div
@@ -191,13 +174,13 @@ const AboutPage = () => {
             style={{ marginBottom: '2rem', textAlign: 'left' }}
             ref={helpfulRef}
           >
-            <Typography variant="h5" gutterBottom style={{ color: '#ff4081', marginTop: '1rem' }}>
-              Why It’s Helpful
+            <Typography variant="h5" gutterBottom style={{ color: '#ffdd57', marginTop: '1rem' }}>
+              Why It’s Beneficial for You
             </Typography>
             <Typography variant="body1" style={{ color: '#ffffffcc' }}>
-              The virtual therapist is available around the clock, offering immediate support whenever you need it. Its continuous availability helps you manage emotions, provides effective stress management techniques, and delivers a reassuring presence whenever you seek comfort.
+              The assistant is available 24/7, providing immediate emotional support and offering suggestions to help you manage academic or social stress. It connects you to valuable resources and helps create a path to well-being.
             </Typography>
-            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ff4081' }} />
+            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ffdd57' }} />
           </motion.div>
 
           <motion.div
@@ -207,44 +190,38 @@ const AboutPage = () => {
             style={{ marginBottom: '2rem', textAlign: 'left' }}
             ref={securityRef}
           >
-            <Typography variant="h5" gutterBottom style={{ color: '#ff4081', marginTop: '1rem' }}>
-              Security Concerns
+            <Typography variant="h5" gutterBottom style={{ color: '#ffdd57', marginTop: '1rem' }}>
+              Security and Privacy
             </Typography>
             <Typography variant="body1" style={{ color: '#ffffffcc' }}>
-              Your privacy and security are paramount. Here’s how we protect your data:
-              <ul>
-                <li>Your chat history is not saved. Each time you refresh the chat by clicking the refresh button on the bot toolbar, all previous messages are cleared.</li>
-                <li>All communication with the bot is encrypted to ensure that your conversations remain confidential and secure.</li>
-              </ul>
-              <Typography variant="body2" style={{ color: '#ff4081', fontStyle: 'italic' }}>
-                * For optimal security, we recommend refreshing the chat before you leave the site to ensure no data remains in the session.
-              </Typography>
+              Your privacy is our priority. All conversations are encrypted, and no data is stored after a session ends. Feel free to refresh the chat to ensure your history is cleared.
             </Typography>
-            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ff4081' }} />
+            <Divider style={{ margin: '1.5rem 0', backgroundColor: '#ffdd57' }} />
           </motion.div>
 
-          <Typography variant="h5" gutterBottom style={{ color: '#ff4081', marginTop: '1rem', display: 'flex', alignItems: 'center' }}>
-            Start by clicking on the chat widget in the right end corner of the page
+          <Typography variant="h5" gutterBottom style={{ color: '#ffdd57', marginTop: '1rem', display: 'flex', alignItems: 'center' }}>
+            Click the chat widget in the bottom-right corner to begin your journey
             <ArrowForwardIcon style={{ marginLeft: '0.5rem' }} />
           </Typography>
         </Container>
+
         <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Box 
-        sx={{
-          bgcolor: '', 
-          p: 3, 
-          borderRadius: 2, 
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
-        }}
-      >
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'white' }}>
-          Disclaimer
-        </Typography>
-        <Typography variant="body1" sx={{ color: 'white' }}>
-          This chatbot is designed to assist and provide information to the best of its ability. However, it is not 100% accurate and is constantly learning. The responses generated by this chatbot are not intended to offend, harm, or provide personalized advice. If you have specific concerns or require expert guidance, please consult a qualified professional. Your understanding and patience are appreciated.
-        </Typography>
-      </Box>
-    </Container>
+          <Box 
+            sx={{
+              bgcolor: '#001f3f', 
+              p: 3, 
+              borderRadius: 2, 
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'white' }}>
+              Disclaimer
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'white' }}>
+              This assistant provides general advice and is constantly improving. For serious concerns or tailored guidance, please consult a licensed professional. Your feedback helps improve the assistant’s accuracy and relevance.
+            </Typography>
+          </Box>
+        </Container>
       </Box>
     </Box>
   );

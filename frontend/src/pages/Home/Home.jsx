@@ -16,14 +16,13 @@ export default function Home() {
     window.scrollTo(0, 0);
   }, []);
 
-
   return (
     <Container maxWidth="lg" sx={{ marginTop: "60px" }}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4}>
           <CardMusic
-            title="Find your Groove"
-            description="Feeling down? Let music lift your spirits! Discover uplifting tunes tailored to your interests. Click here for your personalized playlist!"
+            title="Mental Health Playlist"
+            description="Need a mental boost? Let our playlist lift your spirits with relaxing tunes. Click here to find your personalized soundtrack for de-stressing!"
             imageUrl={Spotify}
             buttonText={<SearchIcon />}
             location="/music"
@@ -32,18 +31,18 @@ export default function Home() {
 
         <Grid item xs={12} sm={4}>
           <CardMusic
-            title="Doodle Space"
-            description="🎨 Unleash your creativity on a digital canvas! ✏️ Draw, erase, and get sketch ideas with ease. Click here to start your artistic adventure!"
+            title="Express Through Art"
+            description="Feeling overwhelmed? Unwind and express yourself on a digital canvas. Create, draw, and relax with our guided doodle space."
             imageUrl={Doodle}
-            buttonText="Open Canvas"
+            buttonText="Start Drawing"
             location="/canvas"
           />
         </Grid>
 
         <Grid item xs={12} sm={4}>
           <CardMusic
-            title="🎬 Discover Your Next Favorite Movie or Show 📺"
-            description="Get personalized recommendations based on your chosen genre, language, and decade."
+            title="Discover Films for Your Mood"
+            description="Find movies or shows that match your emotional state. Get personalized recommendations to relax or uplift your mood."
             imageUrl={Movie}
             buttonText="Get Recommendations"
             location="/movies"
@@ -52,20 +51,20 @@ export default function Home() {
 
         <Grid item xs={12} sm={4}>
           <CardMusic
-            title="My Personal Journal ✍️"
-            description="Capture your thoughts, feelings, and moments with a touch of color and fun emojis! 🌈😊"
-            imageUrl= { VintageJournal }
-            buttonText="Start Writing..."
+            title="Your Mental Health Journal"
+            description="Keep track of your thoughts and emotions in a private journal designed for reflection and self-care. Start your journey now!"
+            imageUrl={VintageJournal}
+            buttonText="Begin Journaling"
             location="/user/journal"
           />
         </Grid>
 
         <Grid item xs={12} sm={4}>
           <CardMusic
-            title="SoulPal 🤖"
-            description="Your 24/7 companion for life's ups and downs 🌟. Whether you need advice, a listening ear, or just someone to talk to, SoulMate is here to support you through it all. 💬✨"
-            imageUrl= { Chat }
-            buttonText="Start Chatting"
+            title="BluePal: Your 24/7 Support"
+            description="Need someone to talk to? Chat with BluePal anytime for advice, support, or a comforting conversation. We're here for you."
+            imageUrl={Chat}
+            buttonText="Chat Now"
             location="/chat"
           />
         </Grid>
