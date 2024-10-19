@@ -11,7 +11,6 @@ import Step1Icon from '@mui/icons-material/CheckCircle';
 import Step2Icon from '@mui/icons-material/Settings';
 import Step3Icon from '@mui/icons-material/Star';
 import background from "../../components/imgs/home-background.jpg";
-import ContactForm from '../../components/ContactForm/ContactForm';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { useAuth } from '../../hooks/AuthContext';
@@ -22,20 +21,14 @@ function LandingPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  // Function to handle scroll to top
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const isLoggedIn = useAuth();
 
-  // Animation variants for framer-motion
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1.5, ease: "easeOut", staggerChildren: 0.3 } // Slower and staggered animation
+      transition: { duration: 1.5, ease: "easeOut", staggerChildren: 0.3 }
     },
   };
 
@@ -63,22 +56,20 @@ function LandingPage() {
           color: '#fff',
           textAlign: 'center',
           paddingTop: '64px',
-          boxSizing: 'border-box',
           backgroundImage: `linear-gradient(rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0.7)), url(${background})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          overflowX: "hidden",
         }}
       >
         <Container maxWidth="md">
           <motion.div variants={itemVariants}>
             <Typography variant="h2" gutterBottom sx={{ fontWeight: 'bold', color: "#D3D3D3" }}>
-              Welcome to SoulSpace
+              Welcome to BlueSpace
             </Typography>
           </motion.div>
           <motion.div variants={itemVariants}>
             <Typography variant="h5" gutterBottom sx={{ marginBottom: 4, color: "#D3D3D3" }}>
-              Your journey to mental well-being starts here.
+              Comprehensive mental health support for international and first-year students.
             </Typography>
           </motion.div>
 
@@ -114,9 +105,9 @@ function LandingPage() {
                 sx={{
                   fontSize: '1.2rem',
                   padding: '10px 20px',
-                  backgroundColor: '#3f51b5',
+                  backgroundColor: '#001f3f',
                   color: '#fff',
-                  '&:hover': { backgroundColor: '#5c6bc0' },
+                  '&:hover': { backgroundColor: '#003366' },
                   transition: 'background-color 0.3s ease',
                 }}
                 onClick={() => navigate("/user/home")}
@@ -136,15 +127,13 @@ function LandingPage() {
               Features
             </Typography>
             <Typography variant="body1" align="center" sx={{ marginBottom: 6 }}>
-              Explore the tools that help you manage and improve your mental health.
+              Tools to support your mental well-being and help you adapt to college life.
             </Typography>
             <Grid container spacing={6}>
               {[
-                { title: 'Music Recommendations', description: 'Curated music suggestions to uplift your mood.', icon: <MusicIcon fontSize="large" /> },
-                { title: 'Movie Recommendations', description: 'Feel-good movies to relax and enjoy.', icon: <MovieIcon fontSize="large" /> },
-                { title: 'Drawing Canvas', description: 'Express your creativity and relieve stress.', icon: <DrawingIcon fontSize="large" /> },
-                { title: 'Virtual Friend Bot', description: 'Chat with a friendly virtual companion.', icon: <BotIcon fontSize="large" /> },
-                { title: 'Journal', description: 'Keep track of your thoughts and feelings securely.', icon: <JournalIcon fontSize="large" /> },
+                { title: 'Mental Health Resources', description: 'Access articles and videos tailored to your needs.', icon: <JournalIcon fontSize="large" /> },
+                { title: 'Virtual Support Chat', description: 'Engage anonymously with a virtual therapist.', icon: <BotIcon fontSize="large" /> },
+                { title: 'Social Connection Activities', description: 'Join well-being activities and connect with peers.', icon: <DrawingIcon fontSize="large" /> },
               ].map((feature, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <motion.div
@@ -186,9 +175,9 @@ function LandingPage() {
             </Typography>
             <Grid container spacing={4}>
               {[
-                { title: 'Step 1', description: 'Sign up to create your BlueSpace account.', icon: <Step1Icon fontSize="large" /> },
-                { title: 'Step 2', description: 'Explore multiple features.', icon: <Step2Icon fontSize="large" /> },
-                { title: 'Step 3', description: 'Enjoy personalized recommendations and tools.', icon: <Step3Icon fontSize="large" /> },
+                { title: 'Step 1', description: 'Sign up and create your profile.', icon: <Step1Icon fontSize="large" /> },
+                { title: 'Step 2', description: 'Access personalized content and resources.', icon: <Step2Icon fontSize="large" /> },
+                { title: 'Step 3', description: 'Engage with peers and professionals for support.', icon: <Step3Icon fontSize="large" /> },
               ].map((step, index) => (
                 <Grid item xs={12} md={4} key={index}>
                   <motion.div
@@ -220,30 +209,6 @@ function LandingPage() {
         </Container>
       </Box>
 
-      {/* Contact Form
-      <ContactForm /> */}
-
-      {/* Scroll Down Indicator */}
-      <Box
-        sx={{
-          position: 'fixed',
-          bottom: 16,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <IconButton
-          aria-label="Scroll Down"
-          sx={{ color: '#D3D3D3' }}
-          onClick={() => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })}
-        >
-          <ArrowDownwardIcon fontSize="large" />
-        </IconButton>
-      </Box>
-
       {/* Scroll to Top Button */}
       <Box
         sx={{
@@ -257,15 +222,12 @@ function LandingPage() {
       >
         <IconButton
           aria-label="Scroll to Top"
-          onClick={scrollToTop}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           sx={{ color: '#D3D3D3' }}
         >
           <ArrowUpwardIcon fontSize="large" />
         </IconButton>
       </Box>
-
-      {/* Footer */}
-      {/* <Footer /> */}
     </>
   );
 }
