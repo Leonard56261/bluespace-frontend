@@ -17,6 +17,7 @@ const Canvas = () => {
   const [lines, setLines] = useState([]);
   const [currentLine, setCurrentLine] = useState([]);
   const stageRef = useRef(null);
+  const backgroundColor = '#1a1a1a'; // Background color for the canvas
 
   // Randomly select a sketch idea
   const getRandomIdea = () => {
@@ -48,25 +49,72 @@ const Canvas = () => {
     setEraser(!eraser);
   };
 
-  // Handle drawing on canvas
+  // Handle mouse down event to start drawing
   const handleMouseDown = (e) => {
-    const pos = e.target.getStage().getPointerPosition();
-    setCurrentLine([...currentLine, pos]);
+    if (e.target.getStage) {
+      const pos = e.target.getStage().getPointerPosition();
+      console.log('Mouse down at:', pos);
+      if (pos) {
+        setCurrentLine([pos]);
+        console.log('Initial currentLine:', [pos]); // Log initial currentLine
+      }
+    }
   };
 
   const handleMouseMove = (e) => {
-    if (currentLine.length > 0) {
+    if (currentLine.length > 0 && e.target.getStage) {
       const pos = e.target.getStage().getPointerPosition();
-      setCurrentLine([...currentLine, pos]);
+      console.log('Mouse move at:', pos);
+      if (pos) {
+        setCurrentLine((prev) => {
+          const newLine = [...prev, pos];
+          console.log('Updated currentLine:', newLine); // Log updated currentLine
+          return newLine;
+        });
+      }
     }
+  };
+  
+  // new changes that satisfy changing to the eraser could help to remove the existing line
+  // Define the isPointNear function
+  const isPointNear = (point1, point2, threshold = 5) => {
+    const distance = Math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2);
+    return distance <= threshold;
   };
 
-  const handleMouseUp = () => {
-    if (currentLine.length > 0) {
-      setLines([...lines, { color: brushColor, radius: brushRadius, points: currentLine }]);
-      setCurrentLine([]);
+  const shouldEraseLine = (line, currentLine) => {
+    const updatedPoints = line.points.filter(
+      linePoint => !currentLine.some(currentPoint => isPointNear(currentPoint, linePoint))
+    );
+  
+    // If any points were removed, return the modified line
+    if (updatedPoints.length < line.points.length) {
+      return { ...line, points: updatedPoints };
     }
+    return null; // If no points were removed, return null to indicate this line should be removed
   };
+  
+  const handleMouseUp = () => {
+    console.log('Mouse up');
+    console.log('Current line points before saving:', currentLine);
+  
+    if (eraser && currentLine.length > 0) {
+      // Use filter to remove lines that should be erased
+      const newLines = lines.map(line => shouldEraseLine(line, currentLine)).filter(Boolean);
+      setLines(newLines);
+    } else if (currentLine.length > 0) {
+      setLines((prevLines) => [
+        ...prevLines,
+        {
+          color: eraser ? backgroundColor : brushColor,
+          radius: brushRadius,
+          points: currentLine,
+        },
+      ]);
+    }
+    setCurrentLine([]);
+  };
+  
 
   return (
     <Container maxWidth="lg" style={{ backgroundColor: 'transparent', color: 'white', height: '90vh', padding: '20px', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', top: '45px', marginBottom: "60px" }}>
@@ -163,30 +211,35 @@ const Canvas = () => {
             style={{ backgroundColor: 'transparent', padding: '20px', borderRadius: '12px', width: '100%', height: '80%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }} // Darker black background with padding
           >
             <Stage
+              data-testid="drawing-stage"
+              ref={stageRef}
               width={window.innerWidth * 0.6}
               height={window.innerHeight * 0.48}
-              ref={stageRef}
-              style={{ border: '2px solid #333', backgroundColor: '#1a1a1a', borderRadius: '12px', marginBottom: '120px' }}
+              style={{ border: '2px solid #333', backgroundColor, borderRadius: '12px', marginBottom: '120px' }}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
             >
-              <Layer>
-                {lines.map((line, index) => (
-                  <Line
-                    key={index}
-                    points={line.points.flatMap(point => [point.x, point.y])}
-                    stroke={line.color}
-                    strokeWidth={line.radius}
-                    lineCap="round"
-                    lineJoin="round"
-                    shadowBlur={10}
-                  />
-                ))}
+              <Layer data-testid="lines-layer">
+              {lines.map((line, index) => {
+                  console.log(`Rendering line ${index}:`, line); // Add this log to check line data
+                  return (
+                    <Line
+                      key={index}
+                      data-testid={`line-${index}`} // For test identification
+                      points={line.points.flatMap((point) => [point.x, point.y])}
+                      stroke={line.color}
+                      strokeWidth={line.radius}
+                      lineCap="round"
+                      lineJoin="round"
+                      shadowBlur={10}
+                    />
+                  );
+                })}
                 {currentLine.length > 0 && (
                   <Line
                     points={currentLine.flatMap(point => [point.x, point.y])}
-                    stroke={brushColor}
+                    stroke={eraser ? backgroundColor : brushColor} // Show current drawing in eraser mode
                     strokeWidth={brushRadius}
                     lineCap="round"
                     lineJoin="round"
