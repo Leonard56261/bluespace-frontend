@@ -19,6 +19,7 @@ import ProtectedRoute from './components/Protected/ProtectedRoute';
 import { AuthProvider } from './hooks/AuthContext';
 import backgroundImage from './components/imgs/textured-background.jpg';
 import NotFound from './pages/NotFound/NotFound';
+import React from 'react';
 
 function App() {
   return (
