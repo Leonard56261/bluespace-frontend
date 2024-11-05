@@ -176,7 +176,7 @@ const Spotify = () => {
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 2,
-        border: '0.5px solid #333',
+        border: 'none',
         marginTop: "80px",
       }}
       
@@ -203,7 +203,7 @@ const Spotify = () => {
           boxShadow: 3,
           width: '100%',
           maxWidth: 600,
-          border: '1px solid #333'
+          border: 'none'
         }}
       >
         <SearchOptionSelect
@@ -248,7 +248,7 @@ const Spotify = () => {
           gap: 2
         }}
       >
-        <Typography variant="h5">Recommendations:</Typography>
+        {/* <Typography variant="h5">Recommendations:</Typography> */}
         <Divider sx={{ my: 2, borderColor: '#333' }} />
         {loading ? (
           <LoadingSpinner />
