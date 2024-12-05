@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <Container maxWidth="lg" sx={{ marginTop: "60px" }}>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}>
+        {/* <Grid item xs={12} sm={4}>
           <CardMusic
             title="Mental Health Playlist"
             description="Need a mental boost? Let our playlist lift your spirits with relaxing tunes. Click here to find your personalized soundtrack for de-stressing!"
@@ -27,7 +27,7 @@ export default function Home() {
             buttonText={<SearchIcon />}
             location="/music"
           />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={4}>
           <CardMusic
