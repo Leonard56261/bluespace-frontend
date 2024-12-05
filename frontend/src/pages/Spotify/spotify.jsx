@@ -24,6 +24,7 @@ const Spotify = () => {
 
   const fetchWithRetry = useCallback(async (url, options, retries = 5) => {
     try {
+      console.log('Request Headers:', options.headers); // Debugging
       const response = await axios(url, options);
       return response;
     } catch (error) {
@@ -34,29 +35,40 @@ const Spotify = () => {
         await new Promise((resolve) => setTimeout(resolve, retryAfter));
         return fetchWithRetry(url, options, retries - 1);
       }
+      console.error('Request failed:', error.response?.data || error.message); // Debugging
       throw error;
     }
   }, []);
+  
 
   const fetchAccessToken = useCallback(async () => {
-    const response = await axios('https://accounts.spotify.com/api/token', {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic ' + btoa(client_id + ':' + client_secret),
-      },
-      method: 'POST',
-      data: new URLSearchParams({
-        grant_type: 'client_credentials',
-      }),
-    });
-
-    return response.data.access_token;
+    try {
+      const response = await axios.post(
+        'https://accounts.spotify.com/api/token',
+        new URLSearchParams({
+          grant_type: 'client_credentials',
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${btoa(client_id + ':' + client_secret)}`,
+          },
+        }
+      );
+  
+      console.log('Access Token Fetched:', response.data.access_token); // Debugging
+      return response.data.access_token;
+    } catch (error) {
+      console.error('Error fetching Spotify access token:', error.response?.data || error.message);
+      throw new Error('Failed to fetch Spotify access token');
+    }
   }, [client_id, client_secret]);
 
   useEffect(() => {
     const fetchGenres = async () => {
       try {
         const token = await fetchAccessToken();
+        console.log('Using token for genres:', token); // Debugging
         const response = await fetchWithRetry(
           'https://api.spotify.com/v1/recommendations/available-genre-seeds',
           {
@@ -65,11 +77,12 @@ const Spotify = () => {
             },
           }
         );
+        console.log('Genres fetched:', response.data); // Debugging
         setGenres(response.data.genres);
       } catch (error) {
-        console.error('Error fetching genres:', error);
+        console.error('Error fetching genres:', error.response?.data || error.message);
       }
-    };
+    };    
 
     fetchGenres();
   }, [fetchAccessToken, fetchWithRetry]);
@@ -106,57 +119,60 @@ const Spotify = () => {
     setRecommendations([]);
   }, [searchOption]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      let artistId = '';
-      if (searchOption === 'artist') {
-        const searchResponse = await fetchWithRetry(
-          'https://api.spotify.com/v1/search',
-          {
-            headers: {
-              Authorization: `Bearer ${await fetchAccessToken()}`,
-            },
-            params: {
-              q: artistSearch,
-              type: 'artist',
-              limit: 1,
-            },
-          }
-        );
-
-        if (searchResponse.data.artists.items.length > 0) {
-          artistId = searchResponse.data.artists.items[0].id;
-        } else {
-          console.error('Artist not found');
-          setLoading(false);
-          return;
-        }
-      } else {
-        artistId = artist;
-      }
-
-      const response = await fetchWithRetry(
-        'https://api.spotify.com/v1/recommendations',
+  try {
+    let artistId = '';
+    if (searchOption === 'artist') {
+      const searchResponse = await fetchWithRetry(
+        'https://api.spotify.com/v1/search',
         {
           headers: {
             Authorization: `Bearer ${await fetchAccessToken()}`,
           },
           params: {
-            seed_artists: artistId,
+            q: artistSearch,
+            type: 'artist',
+            limit: 1,
           },
         }
       );
 
-      setRecommendations(response.data.tracks);
-    } catch (error) {
-      console.error('Error fetching recommendations:', error);
-    } finally {
-      setLoading(false);
+      if (searchResponse.data.artists.items.length > 0) {
+        artistId = searchResponse.data.artists.items[0].id;
+        console.log('Found Artist ID:', artistId); // Debugging
+      } else {
+        console.error('Artist not found');
+        setLoading(false);
+        return;
+      }
+    } else {
+      artistId = artist;
     }
-  };
+
+    const response = await fetchWithRetry(
+      'https://api.spotify.com/v1/recommendations',
+      {
+        headers: {
+          Authorization: `Bearer ${await fetchAccessToken()}`,
+        },
+        params: {
+          seed_artists: artistId,
+        },
+      }
+    );
+
+    console.log('Recommendations:', response.data.tracks); // Debugging
+    setRecommendations(response.data.tracks);
+  } catch (error) {
+    console.error('Error fetching recommendations:', error.response?.data || error.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
   
   useEffect(() => {
     window.scrollTo(0, 0);
